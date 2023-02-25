@@ -1,4 +1,3 @@
-import { Prisma } from '@prisma/client';
 import { CreateUsernameResponse, GraphQLContext } from '../../util/types';
 
 const resolvers = {
@@ -32,11 +31,10 @@ const resolvers = {
 
         if (existingUser) {
           return {
-            error: 'Username already taken. Try another',
+            error: 'Username already taken. Try another.',
           };
         }
 
-        // Update username
         await prisma.user.update({
           where: {
             id: userId,
@@ -47,7 +45,7 @@ const resolvers = {
         });
 
         return { success: true };
-      } catch (error) {
+      } catch (error: any) {
         console.log('createUsername error', error);
         return {
           error: error?.message,
